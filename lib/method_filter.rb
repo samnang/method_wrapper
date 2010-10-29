@@ -11,22 +11,22 @@ module MethodFilter
 
   module ClassMethods
     def method_added(name)
-      return if @disable_hook_method_added
+      return if @_disable_hook_method_added
 
-      wrap_method(name) if @_filtered_methods.include? name
+      _wrap_method(name) if @_filtered_methods.include? name
     end
 
     def method_filter(*args)
       @_filtered_methods = args
 
       @_filtered_methods.each do |name|
-        wrap_method(name) if instance_method_defined? name
+        _wrap_method(name) if instance_method_defined? name
       end
     end
 
     private
-    def wrap_method(name)
-      @disable_hook_method_added = true
+    def _wrap_method(name)
+      @_disable_hook_method_added = true
 
       origin_method_name = "origin_#{name}"
       origin_method = instance_method(name)
@@ -39,7 +39,7 @@ module MethodFilter
         invoke_method("after_#{name}")
       end
 
-      @disable_hook_method_added = false
+      @_disable_hook_method_added = false
     end
 
     def instance_method_defined?(name)
