@@ -13,19 +13,19 @@ module MethodFilter
     def method_added(name)
       return if @_disable_hook_method_added
 
-      _wrap_method(name) if @_filtered_methods.include? name
+      _wrap_method!(name) if @_filtered_methods.include? name
     end
 
     def method_filter(*args)
       @_filtered_methods = args
 
       @_filtered_methods.each do |name|
-        _wrap_method(name) if instance_method_defined? name
+        _wrap_method!(name) if instance_method_defined? name
       end
     end
 
     private
-    def _wrap_method(name)
+    def _wrap_method!(name)
       @_disable_hook_method_added = true
 
       origin_method_name = "origin_#{name}"
