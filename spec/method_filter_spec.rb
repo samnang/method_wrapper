@@ -8,28 +8,57 @@ describe MethodFilter do
         Class.new do
           include MethodFilter
 
-          def my_method
+          def method_name
             puuts 'hi'
           end
 
-          method_filter :my_method
+          method_filter :method_name
         end
 
-      klass.instance_variable_get(:@_filtered_methods).should == [:my_method]
+      klass.instance_variable_get(:@_filtered_methods).should == [:method_name]
     end
 
     it "should store method name when calls before method defined" do
       klass =
         Class.new do
           include MethodFilter
-          method_filter :my_method
+          method_filter :method_name
 
-          def my_method
+          def method_name
             puuts 'hi'
           end
         end
 
-      klass.instance_variable_get(:@_filtered_methods).should == [:my_method]
+      klass.instance_variable_get(:@_filtered_methods).should == [:method_name]
+    end
+  end
+
+  context "invoke the method that has filter" do
+    it "should invoke _before_method_name and after_method_name" do
+      klass = Class.new do
+        include MethodFilter
+
+        def method_name
+          puts 'hi'
+        end
+
+        private
+        def _before_method_name
+          @has_called_before_filter = true
+        end
+
+        def _after_method_name
+          @has_called_after_filter = true
+        end
+
+        method_filter :method_name
+      end
+
+      obj = klass.new
+      obj.method_name
+
+      obj.instance_variable_get(:@has_called_before_filter).should eql(true)
+      obj.instance_variable_get(:@has_called_after_filter).should eql(true)
     end
   end
 end
