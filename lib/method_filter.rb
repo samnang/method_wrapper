@@ -19,7 +19,9 @@ module MethodFilter
     def method_filter(*args)
       @_filtered_methods = args
 
-      wrap_method(@_filtered_methods[0]) if instance_method_defined? @_filtered_methods[0]
+      @_filtered_methods.each do |name|
+        wrap_method(name) if instance_method_defined? name
+      end
     end
 
     private

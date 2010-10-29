@@ -3,7 +3,7 @@ require_relative '../lib/method_filter.rb'
 
 describe MethodFilter do
   describe "#method_filter, stores methods that want to has filters" do
-    it "should store method name when calls after method defined" do
+    it "should store method names when calls after method defined" do
       klass =
         Class.new do
           include MethodFilter
@@ -11,23 +11,29 @@ describe MethodFilter do
           def method_name
           end
 
-          method_filter :method_name
+          def second_method_name
+          end
+
+          method_filter :method_name, :second_method_name
         end
 
-      klass.instance_variable_get(:@_filtered_methods).should == [:method_name]
+      klass.instance_variable_get(:@_filtered_methods).should == [:method_name, :second_method_name]
     end
 
-    it "should store method name when calls before method defined" do
+    it "should store method names when calls before method defined" do
       klass =
         Class.new do
           include MethodFilter
-          method_filter :method_name
+          method_filter :method_name, :second_method_name
 
           def method_name
           end
+
+          def second_method_name
+          end
         end
 
-      klass.instance_variable_get(:@_filtered_methods).should == [:method_name]
+      klass.instance_variable_get(:@_filtered_methods).should == [:method_name, :second_method_name]
     end
   end
 
@@ -90,6 +96,11 @@ describe MethodFilter do
             @param = param
             yield
           end
+
+          private
+          def after_method_name
+            @has_called_after_filter = true
+          end
         end
 
       obj = klass.new
@@ -101,6 +112,7 @@ describe MethodFilter do
 
       obj.instance_variable_get(:@param).should eql("value")
       has_called.should eql(true)
+      obj.instance_variable_get(:@has_called_after_filter).should eql(true)
     end
   end
 end
