@@ -9,7 +9,6 @@ describe MethodFilter do
           include MethodFilter
 
           def method_name
-            puuts 'hi'
           end
 
           method_filter :method_name
@@ -25,7 +24,6 @@ describe MethodFilter do
           method_filter :method_name
 
           def method_name
-            puuts 'hi'
           end
         end
 
@@ -35,30 +33,52 @@ describe MethodFilter do
 
   context "invoke the method that has filter" do
     it "should invoke _before_method_name and after_method_name" do
-      klass = Class.new do
-        include MethodFilter
+      klass =
+        Class.new do
+          include MethodFilter
 
-        def method_name
-          puts 'hi'
+          def method_name
+          end
+
+          private
+          def before_method_name
+            @has_called_before_filter = true
+          end
+
+          def after_method_name
+            @has_called_after_filter = true
+          end
+
+          method_filter :method_name
         end
-
-        private
-        def before_method_name
-          @has_called_before_filter = true
-        end
-
-        def after_method_name
-          @has_called_after_filter = true
-        end
-
-        method_filter :method_name
-      end
 
       obj = klass.new
       obj.method_name
 
       obj.instance_variable_get(:@has_called_before_filter).should eql(true)
       obj.instance_variable_get(:@has_called_after_filter).should eql(true)
+    end
+
+    it "should ignore filters if user hasn't defined" do
+      klass =
+        Class.new do
+          include MethodFilter
+
+          def method_name
+          end
+
+          private
+          def before_method_name
+            @has_called_before_filter = true
+          end
+
+          method_filter :method_name
+        end
+
+      obj = klass.new
+      obj.method_name
+
+      obj.instance_variable_get(:@has_called_before_filter).should eql(true)
     end
   end
 end

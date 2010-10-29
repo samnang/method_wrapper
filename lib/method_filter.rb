@@ -4,6 +4,11 @@ module MethodFilter
     base.extend ClassMethods
   end
 
+  private
+  def invoke_method(name)
+    send(name) if respond_to? name, true
+  end
+
   module ClassMethods
     def method_added(name)
       return if @disable_hook_method_added
@@ -27,9 +32,9 @@ module MethodFilter
       alias_method origin_method_name, name
 
       define_method(name) do
-        send("before_#{name}")
+        invoke_method("before_#{name}")
         origin_method.bind(self).call
-        send("after_#{name}")
+        invoke_method("after_#{name}")
       end
 
       @disable_hook_method_added = false
