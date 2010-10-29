@@ -36,6 +36,7 @@ describe MethodFilter do
       klass =
         Class.new do
           include MethodFilter
+          method_filter :method_name
 
           def method_name
           end
@@ -48,8 +49,6 @@ describe MethodFilter do
           def after_method_name
             @has_called_after_filter = true
           end
-
-          method_filter :method_name
         end
 
       obj = klass.new
@@ -79,6 +78,29 @@ describe MethodFilter do
       obj.method_name
 
       obj.instance_variable_get(:@has_called_before_filter).should eql(true)
+    end
+
+    it "should be able to invoke the method with args and block" do
+      klass =
+        Class.new do
+          include MethodFilter
+          method_filter :method_name
+
+          def method_name(param)
+            @param = param
+            yield
+          end
+        end
+
+      obj = klass.new
+      has_called = false
+
+      obj.method_name("value") do
+        has_called = true
+      end
+
+      obj.instance_variable_get(:@param).should eql("value")
+      has_called.should eql(true)
     end
   end
 end

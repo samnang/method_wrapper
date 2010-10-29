@@ -31,9 +31,9 @@ module MethodFilter
 
       alias_method origin_method_name, name
 
-      define_method(name) do
+      define_method(name) do |*args, &block|
         invoke_method("before_#{name}")
-        origin_method.bind(self).call
+        origin_method.bind(self).call(*args, &block)
         invoke_method("after_#{name}")
       end
 
