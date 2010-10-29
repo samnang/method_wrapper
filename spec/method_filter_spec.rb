@@ -43,11 +43,11 @@ describe MethodFilter do
         end
 
         private
-        def _before_method_name
+        def before_method_name
           @has_called_before_filter = true
         end
 
-        def _after_method_name
+        def after_method_name
           @has_called_after_filter = true
         end
 

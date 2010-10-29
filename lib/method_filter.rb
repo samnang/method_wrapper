@@ -27,9 +27,9 @@ module MethodFilter
       alias_method origin_method_name, name
 
       define_method(name) do
-        send("_before_#{name}")
+        send("before_#{name}")
         origin_method.bind(self).call
-        send("_after_#{name}")
+        send("after_#{name}")
       end
 
       @disable_hook_method_added = false
