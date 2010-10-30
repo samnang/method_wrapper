@@ -1,0 +1,68 @@
+= Method Wrapper
+
+<em>Lightweight method wrapper in Ruby.</em>
+
+== Introduction
+
+This gem help you to to wrap new features around (before and after) existing methods call on Any classes.
+
+The before_ and after_ callbacks will run as soon as you call wrapped method.
+
+== Installation
+
+  gem install method_wrapper
+
+== Examples
+  class Klass
+    include MethodWrapper
+    wrap_methods :method_name
+
+    def method_name
+      puts 'hi'
+    end
+
+    def before_method_name
+      puts "calls before method name"
+    end
+
+    def after_method_name
+      puts "calls after method name"
+    end
+  end
+
+You can also has partial callback
+  class Klass
+    include MethodWrapper
+    wrap_methods :method_name, :second_method_name
+
+    def method_name
+      puts 'hi'
+    end
+
+    def second_method_name
+      puts 'hello'
+    end
+
+    def before_method_name
+      puts "calls before method name"
+    end
+
+    def after_method_name
+      puts "calls after method name"
+    end
+
+    def after_second_method_name
+      puts "calls after second method name"
+    end
+  end
+
+You can also open the existing classes to wrap methods
+  class String
+    include MethodWrapper
+    wrap_methods :reverse
+
+    def before_reverse
+      puts "calls before string reverse"
+    end
+  end
+

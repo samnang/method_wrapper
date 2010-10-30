@@ -35,8 +35,10 @@ module MethodWrapper
 
       define_method(name) do |*args, &block|
         invoke_method("before_#{name}")
-        origin_method.bind(self).call(*args, &block)
+        return_result = origin_method.bind(self).call(*args, &block)
         invoke_method("after_#{name}")
+
+        return_result
       end
 
       @_disable_hook_method_added = false
