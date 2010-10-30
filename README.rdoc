@@ -4,7 +4,7 @@
 
 == Introduction
 
-This gem help you to to wrap new features around (before and after) existing methods call on Any classes.
+This gem helps you to wrap new features around (before and after) existing methods call on any classes.
 
 The before_ and after_ callbacks will run as soon as you call wrapped method.
 
