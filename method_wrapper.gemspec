@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Samnang Chhun"]
   s.email       = ["samnang.chhun@gmail.com"]
-  s.homepage    = "http://rubygems.org/gems/method_wrapper"
+  s.homepage    = "http://github.com/samnang/method_wrapper"
   s.summary     = "How easy to wrap new features around (before and after) existing methods call with method_wrapper."
   s.description = "This gem help you to to wrap new features around (before and after) existing methods call on Any classes. The before_ and after_ callbacks will run as soon as you call wrapped method."
 

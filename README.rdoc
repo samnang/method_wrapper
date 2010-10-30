@@ -13,6 +13,8 @@ The before_ and after_ callbacks will run as soon as you call wrapped method.
   gem install method_wrapper
 
 == Examples
+  require 'method_wrapper'
+
   class Klass
     include MethodWrapper
     wrap_methods :method_name
@@ -31,6 +33,8 @@ The before_ and after_ callbacks will run as soon as you call wrapped method.
   end
 
 You can also has partial callback
+  require 'method_wrapper'
+
   class Klass
     include MethodWrapper
     wrap_methods :method_name, :second_method_name
@@ -57,6 +61,8 @@ You can also has partial callback
   end
 
 You can also open the existing classes to wrap methods
+  require 'method_wrapper'
+
   class String
     include MethodWrapper
     wrap_methods :reverse
