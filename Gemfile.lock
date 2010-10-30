@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    method_wrapper (0.1.0)
+    method_wrapper (0.1.1)
 
 GEM
   remote: http://rubygems.org/
@@ -25,3 +25,4 @@ DEPENDENCIES
   bundler (>= 1.0.0.rc.5)
   method_wrapper!
   rspec (>= 2.0.0)
+
