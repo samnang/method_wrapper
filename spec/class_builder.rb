@@ -2,7 +2,7 @@ class ClassBuilder
   class << self
     def a_class_has_methods_and_calls_after_methods_defined
       Class.new do
-        include MethodFilter
+        include MethodWrapper
 
         def method_name
         end
@@ -10,14 +10,14 @@ class ClassBuilder
         def second_method_name
         end
 
-        method_filter :method_name, :second_method_name
+        wrap_methods :method_name, :second_method_name
       end
     end
 
     def a_class_has_methods_and_calls_before_methods_defined
       Class.new do
-        include MethodFilter
-        method_filter :method_name, :second_method_name
+        include MethodWrapper
+        wrap_methods :method_name, :second_method_name
 
         def method_name
         end
@@ -27,45 +27,45 @@ class ClassBuilder
       end
     end
 
-    def a_class_has_before_and_after_method_filter
+    def a_class_has_before_and_after_wrap_methods
       Class.new do
-        include MethodFilter
-        method_filter :method_name
+        include MethodWrapper
+        wrap_methods :method_name
 
         def method_name
         end
 
         private
         def before_method_name
-          @has_called_before_filter = true
+          @has_called_before_callback = true
         end
 
         def after_method_name
-          @has_called_after_filter = true
+          @has_called_after_callback = true
         end
       end
     end
 
-    def a_class_has_partial_method_filter
+    def a_class_has_partial_callback
       Class.new do
-        include MethodFilter
+        include MethodWrapper
 
         def method_name
         end
 
         private
         def before_method_name
-          @has_called_before_filter = true
+          @has_called_before_callback = true
         end
 
-        method_filter :method_name
+        wrap_methods :method_name
       end
     end
 
     def a_class_has_method_with_args_and_block
       Class.new do
-        include MethodFilter
-        method_filter :method_name
+        include MethodWrapper
+        wrap_methods :method_name
 
         def method_name(param)
           @param = param
@@ -74,7 +74,7 @@ class ClassBuilder
 
         private
         def after_method_name
-          @has_called_after_filter = true
+          @has_called_after_callback = true
         end
       end
     end

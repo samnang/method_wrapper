@@ -1,6 +1,6 @@
-module MethodFilter
+module MethodWrapper
   def self.included(base)
-    base.instance_variable_set(:@_filtered_methods, [])
+    base.instance_variable_set(:@_wrapped_methods, [])
     base.extend ClassMethods
   end
 
@@ -13,13 +13,13 @@ module MethodFilter
     def method_added(name)
       return if @_disable_hook_method_added
 
-      _wrap_method!(name) if @_filtered_methods.include? name
+      _wrap_method!(name) if @_wrapped_methods.include? name
     end
 
-    def method_filter(*args)
-      @_filtered_methods = args
+    def wrap_methods(*args)
+      @_wrapped_methods = args
 
-      @_filtered_methods.each do |name|
+      @_wrapped_methods.each do |name|
         _wrap_method!(name) if instance_method_defined? name
       end
     end
