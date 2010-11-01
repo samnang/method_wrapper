@@ -4,20 +4,20 @@
 
 == Introduction
 
-alias_method_chain alternative. How easy to wrap new features around existing methods with method_wrapper.
+alias_method_chain alternative. How easy to wrap a new feature around existing methods with method_wrapper.
 
 == Installation
 
   gem install method_wrapper
 
-== Examples
+== Features
 
 * Wrap multi methods to a feature in a line.
 * Be able to call wrap_methods before methods defined.
-  require 'method_wrapper'
 * Call original method(origin_method_name). Note: I take different style from alias_method_chain because we don't want users to know what feature has been wrapped.
 
 == Examples
+  require 'method_wrapper'
 
   class Klass
     include MethodWrapper
