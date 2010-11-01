@@ -28,6 +28,21 @@ class ClassBuilder
         wrap_methods [:name!, :name1] => :feature
       end
     end
+
+    def a_class_calls_wrap_methods_before_methods_defined
+      Class.new do
+        include MethodWrapper
+        wrap_methods [:name!, :name1] => :feature
+
+        def name!; end
+        def name_with_feature!; end
+
+        def name1_with_feature; end
+        def name1; end
+
+        private :name1
+      end
+    end
   end
 end
 
