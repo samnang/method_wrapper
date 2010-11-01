@@ -34,13 +34,7 @@ class ClassBuilder
         include MethodWrapper
         wrap_methods [:name!, :name1] => :feature
 
-        def name!; end
-        def name_with_feature!; end
-
-        def name1_with_feature; end
-        def name1; end
-
-        private :name1
+        include Methods
       end
     end
   end

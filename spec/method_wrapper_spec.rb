@@ -34,7 +34,7 @@ describe MethodWrapper do
     end
 
     def verify_wrapped_methods(klass)
-      klass.instance_variable_get(:@_wrapped_methods).should ==
+      klass.instance_variable_get(:@__wrapped_methods).should ==
         {:name! => :name_with_feature!, :name1 => :name1_with_feature}
     end
 
