@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Samnang Chhun"]
   s.email       = ["samnang.chhun@gmail.com"]
   s.homepage    = "http://github.com/samnang/method_wrapper"
-  s.summary     = "How easy to wrap new features around (before and after) existing methods call with method_wrapper."
-  s.description = "This gem helps you to wrap new features around (before and after) existing methods call on any classes. The before_ and after_ callbacks will run as soon as you call wrapped method."
+  s.summary     = "Alternative alias_method_chain. How easy to wrap new features around existing methods with method_wrapper."
+  s.description = "alias_method_chain alternative. How easy to wrap new features around existing methods with method_wrapper."
 
   s.required_rubygems_version = ">= 1.3.6"
   s.rubyforge_project         = "[none]"

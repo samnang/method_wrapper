@@ -4,71 +4,60 @@
 
 == Introduction
 
-This gem helps you to wrap new features around (before and after) existing methods call on any classes.
-
-The before_ and after_ callbacks will run as soon as you call wrapped method.
+alias_method_chain alternative. How easy to wrap new features around existing methods with method_wrapper.
 
 == Installation
 
   gem install method_wrapper
 
 == Examples
+
+* Wrap multi methods to a feature in a line.
+* Be able to call wrap_methods before methods defined.
   require 'method_wrapper'
+* Call original method(origin_method_name). Note: I take different style from alias_method_chain because we don't want users to know what feature has been wrapped.
+
+== Examples
 
   class Klass
     include MethodWrapper
-    wrap_methods :method_name
+    wrap_methods [:save!, :query] => :log
 
-    def method_name
-      puts 'hi'
+    def save!
+      "save"
     end
 
-    def before_method_name
-      puts "calls before method name"
+    def query
+      "update"
     end
 
-    def after_method_name
-      puts "calls after method name"
-    end
-  end
-
-You can also has partial callback
-  require 'method_wrapper'
-
-  class Klass
-    include MethodWrapper
-    wrap_methods :method_name, :second_method_name
-
-    def method_name
-      puts 'hi'
+    def save_with_log!
+      origin_save! + " with log"
     end
 
-    def second_method_name
-      puts 'hello'
-    end
-
-    def before_method_name
-      puts "calls before method name"
-    end
-
-    def after_method_name
-      puts "calls after method name"
-    end
-
-    def after_second_method_name
-      puts "calls after second method name"
+    def query_with_log
+      origin_query! + " with log"
     end
   end
 
-You can also open the existing classes to wrap methods
+  obj = Klass.new
+  obj.save!
+   => "save with log"
+  obj.origin_save!
+   => "save"
+
+You can also open the existing classes to wrap methods. Note: Be careful, you know what you are doing.
   require 'method_wrapper'
 
   class String
     include MethodWrapper
-    wrap_methods :reverse
+    wrap_methods :reverse => :upcase
 
-    def before_reverse
-      puts "calls before string reverse"
+    def reverse_with_upcase
+      origin_reverse.upcase
     end
   end
+
+  "nuhhc gnanmas".reverse
+   => SAMNANG CHHUN
 
