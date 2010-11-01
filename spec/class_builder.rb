@@ -6,6 +6,8 @@ class ClassBuilder
 
       def name_with_feature!; end
       def name1_with_feature; end
+
+      private :name1
     end
 
     def a_class_with_2_methods_add_feature

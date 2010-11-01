@@ -2,10 +2,9 @@ require 'spec_helper'
 
 describe MethodWrapper do
   describe ".wrap_methods" do
+    let(:klass) { klass = ClassBuilder.a_class_with_2_methods_add_feature }
 
     it "should stores the wrapped methods with feature" do
-      klass = ClassBuilder.a_class_with_2_methods_add_feature
-
       verify_wrapped_methods(klass)
     end
 
@@ -16,22 +15,22 @@ describe MethodWrapper do
     end
 
     it "should wrap new feature to methods" do
-      klass = ClassBuilder.a_class_with_2_methods_add_feature
-
-      klass.instance_method(:name!).should == klass.instance_method(:name_with_feature!)
-      klass.instance_method(:name1).should == klass.instance_method(:name1_with_feature)
+      klass.should has_alias_method(:name!, :name_with_feature!)
+      klass.should has_alias_method(:name1, :name1_with_feature)
     end
 
     it "should create new method for origin method" do
-      klass = ClassBuilder.a_class_with_2_methods_add_feature
+      klass.new.should be_respond_to :origin_name!
+      klass.new.should be_respond_to :origin_name1, true #include private
+    end
 
-      klass.new.should respond_to :origin_name!
-      klass.new.should respond_to :origin_name1
+    it "should restore visibility to origin method" do
+      klass.private_instance_methods.should include(:name1)
     end
 
     def verify_wrapped_methods(klass)
       klass.instance_variable_get(:@_wrapped_methods).should ==
-        {:name! => :feature, :name1 => :feature}
+        {"name!" => "name_with_feature!", "name1" => "name1_with_feature"}
     end
   end
 end
